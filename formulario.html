@@ -91,15 +91,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-danger {
-            background: #c62828;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #b71c1c;
-        }
-
         .form-group {
             margin-bottom: 20px;
         }
@@ -390,20 +381,43 @@
     </div>
 
     <script>
+        // ============================================
+        // DADOS
+        // ============================================
         let acoes = [];
         let editandoId = null;
 
+        // ============================================
+        // CARREGAR DADOS
+        // ============================================
         function carregarDados() {
             try {
                 const dados = localStorage.getItem('acoes_dae_2026');
-                if (dados) { acoes = JSON.parse(dados); atualizarStatus(); }
-            } catch (e) { console.log('Nenhum dado salvo ainda'); }
+                if (dados) {
+                    acoes = JSON.parse(dados);
+                    atualizarStatus();
+                }
+            } catch (e) {
+                console.log('📭 Nenhum dado local');
+            }
         }
 
+        // ============================================
+        // SALVAR DADOS (com Firebase)
+        // ============================================
         function salvarDados() {
-            try { localStorage.setItem('acoes_dae_2026', JSON.stringify(acoes)); atualizarStatus(); } catch (e) { console.error('Erro ao salvar:', e); }
+            try {
+                localStorage.setItem('acoes_dae_2026', JSON.stringify(acoes));
+                salvarDadosFirebase(acoes);
+                atualizarStatus();
+            } catch (e) {
+                console.error('❌ Erro ao salvar:', e);
+            }
         }
 
+        // ============================================
+        // ATUALIZAR STATUS
+        // ============================================
         function atualizarStatus() {
             const total = acoes.length;
             const executadas = acoes.filter(a => a.status === 'Executada').length;
@@ -415,6 +429,9 @@
             document.getElementById('totalPrioridade').textContent = prioridadeAlta;
         }
 
+        // ============================================
+        // DETECÇÃO AUTOMÁTICA
+        // ============================================
         function detectarCargo(nome) {
             const n = nome.toLowerCase();
             if (n.includes('assistente social') || n.includes('assistente')) return 'Assistente Social';
@@ -430,12 +447,18 @@
             return encontrados.join('; ');
         }
 
+        // ============================================
+        // GERAR ID
+        // ============================================
         function gerarID() {
-            const nums = acoes.map(a => parseInt(a.id.replace('DAE-2026-', '')) || 0);
+            const nums = acoes.map(a => parseInt(a.id?.replace('DAE-2026-', '')) || 0);
             const max = nums.length > 0 ? Math.max(...nums) : 0;
             return 'DAE-2026-' + String(max + 1).padStart(3, '0');
         }
 
+        // ============================================
+        // TOAST
+        // ============================================
         function mostrarToast(mensagem, tipo = 'success') {
             const success = document.getElementById('successMessage');
             const error = document.getElementById('errorMessage');
@@ -452,6 +475,9 @@
             }
         }
 
+        // ============================================
+        // PREVIEW
+        // ============================================
         function mostrarPreview(acao) {
             const preview = document.getElementById('preview');
             document.getElementById('previewContent').innerHTML = `
@@ -468,6 +494,9 @@
             preview.classList.add('show');
         }
 
+        // ============================================
+        // LIMPAR FORMULÁRIO
+        // ============================================
         function limparFormulario() {
             document.getElementById('formAcao').reset();
             document.getElementById('cargo').value = '';
@@ -484,6 +513,9 @@
             editandoId = null;
         }
 
+        // ============================================
+        // CARREGAR PARA EDIÇÃO
+        // ============================================
         function carregarParaEdicao(id) {
             const acao = acoes.find(a => a.id === id);
             if (!acao) return;
@@ -507,6 +539,9 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // ============================================
+        // SUBMIT DO FORMULÁRIO
+        // ============================================
         document.getElementById('formAcao').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -552,6 +587,9 @@
             }
         });
 
+        // ============================================
+        // AUTO DETECÇÃO
+        // ============================================
         document.getElementById('responsavel').addEventListener('input', function () {
             const cargo = detectarCargo(this.value);
             if (cargo && !document.getElementById('cargo').value) {
@@ -566,13 +604,56 @@
             }
         });
 
+        // ============================================
+        // VERIFICAR EDIÇÃO VIA URL
+        // ============================================
         const urlParams = new URLSearchParams(window.location.search);
         const editId = urlParams.get('edit');
         if (editId) carregarParaEdicao(editId);
 
+        // ============================================
+        // INICIAR
+        // ============================================
         carregarDados();
         console.log('📋 Formulário DAE carregado!');
         console.log(`📊 ${acoes.length} ações em memória`);
+    </script>
+
+    <!-- ============================================
+         FIREBASE - BANCO DE DADOS ONLINE
+         ============================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ============================================
+        // CONFIGURAÇÃO DO FIREBASE
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBt4N9gQ6DFXZ6d648kisGfLzrdjo0TohU",
+            authDomain: "dae-dashboard-2026.firebaseapp.com",
+            projectId: "dae-dashboard-2026",
+            storageBucket: "dae-dashboard-2026.firebasestorage.app",
+            messagingSenderId: "794919394282",
+            appId: "1:794919394282:web:36c644769fb6a9312bb093"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log('🔥 Firebase conectado no formulário!');
+
+        // ============================================
+        // SALVAR DADOS NO FIREBASE
+        // ============================================
+        async function salvarDadosFirebase(acoes) {
+            try {
+                await db.collection('acoes').doc('lista').set({ dados: acoes });
+                console.log('✅ Dados salvos no Firebase!');
+            } catch (error) {
+                console.error('❌ Erro ao salvar no Firebase:', error);
+            }
+        }
     </script>
 </body>
 

@@ -1,7 +1,7 @@
 # 📊 Sistema DAE 2026 - Dashboard de Ações
 
 ## Descrição
-Sistema completo para gerenciamento de ações da Diretoria de Assuntos Estudantis (DAE) do Ifes, desenvolvido para funcionar diretamente no navegador.
+Sistema completo para gerenciamento de ações da Diretoria de Assuntos Estudantis (DAE) do Ifes.
 
 ## Funcionalidades
 - ✅ **Dashboard interativo** com gráficos e filtros
@@ -10,20 +10,12 @@ Sistema completo para gerenciamento de ações da Diretoria de Assuntos Estudant
 - ✅ **Filtros** por eixo, status, responsável e prioridade
 - ✅ **Exportação** para CSV
 - ✅ **Tema claro/escuro**
-- ✅ **Armazenamento local** (localStorage)
-- ✅ **Transformação automática** de planilhas Excel
-
-## Arquivos
-| Arquivo | Descrição |
-|---------|-----------|
-| `dashboard.html` | Dashboard principal com gráficos e tabela |
-| `formulario.html` | Formulário para cadastro e edição |
-| `transformar_planilha.py` | Script Python para transformar Excel |
+- ✅ **Armazenamento local** (localStorage) + **Firebase** (online)
 
 ## Como Usar
 
 ### 1. Abrir o Dashboard
-- Abra `dashboard.html` no navegador
+- Acesse: `https://xdavi3.github.io/dae-dashboard-2026/`
 
 ### 2. Cadastrar Ação
 - Clique em **"+ Nova Ação"**
@@ -39,27 +31,12 @@ Sistema completo para gerenciamento de ações da Diretoria de Assuntos Estudant
 - Clique em **🗑️** na tabela
 - Confirme a exclusão
 
-### 5. Filtrar Dados
-- Use os filtros no topo do dashboard
-- Clique nos cards para filtrar rapidamente
-
-### 6. Exportar
-- Clique em **"CSV"** no dashboard
-
-### 7. Transformar Excel
-- Coloque a planilha na mesma pasta
-- Execute: `python transformar_planilha.py`
-
-## Personalização
-- **Cores**: Modifique as variáveis CSS no início do arquivo
-- **Campos**: Adicione novos campos no formulário e na tabela
-
 ## Tecnologias
 - HTML5 + CSS3 (vanilla)
 - JavaScript (ES6)
 - Chart.js (gráficos)
-- localStorage (armazenamento)
-- Python + Pandas (transformação)
+- Firebase (banco de dados online)
+- GitHub Pages (hospedagem)
 
 ## Autor
 Desenvolvido para a Diretoria de Assuntos Estudantis (DAE) - Ifes

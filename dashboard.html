@@ -56,9 +56,7 @@
             margin: 0 auto;
         }
 
-        /* ============================================
-           HEADER
-           ============================================ */
+        /* HEADER */
         .header {
             background: var(--bg-header);
             color: white;
@@ -158,9 +156,7 @@
             background: var(--border-color);
         }
 
-        /* ============================================
-           STATUS BAR
-           ============================================ */
+        /* STATUS BAR */
         .status-bar {
             background: var(--bg-card);
             padding: 16px 24px;
@@ -200,9 +196,7 @@
             color: var(--color-alta);
         }
 
-        /* ============================================
-           FILTROS
-           ============================================ */
+        /* FILTROS */
         .filters {
             background: var(--bg-card);
             padding: 16px 20px;
@@ -246,9 +240,7 @@
             flex-wrap: wrap;
         }
 
-        /* ============================================
-           CARDS
-           ============================================ */
+        /* CARDS */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -296,9 +288,7 @@
             color: var(--color-andamento);
         }
 
-        /* ============================================
-           GRÁFICOS
-           ============================================ */
+        /* GRÁFICOS */
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -327,9 +317,7 @@
             max-width: 100%;
         }
 
-        /* ============================================
-           TABELA
-           ============================================ */
+        /* TABELA */
         .table-container {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -449,9 +437,7 @@
             background: #ef9a9a;
         }
 
-        /* ============================================
-           MODAL
-           ============================================ */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -533,9 +519,7 @@
             justify-content: flex-end;
         }
 
-        /* ============================================
-           TOAST
-           ============================================ */
+        /* TOAST */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -579,9 +563,7 @@
             }
         }
 
-        /* ============================================
-           RESPONSIVIDADE
-           ============================================ */
+        /* RESPONSIVIDADE */
         @media (max-width: 768px) {
             .charts-grid {
                 grid-template-columns: 1fr;
@@ -843,7 +825,30 @@
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
+    <!-- ============================================
+     FIREBASE - BANCO DE DADOS ONLINE
+     ============================================ -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script>
+        // ============================================
+        // CONFIGURAÇÃO DO FIREBASE
+        // ============================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBt4N9gQ6DFXZ6d648kisGfLzrdjo0TohU",
+            authDomain: "dae-dashboard-2026.firebaseapp.com",
+            projectId: "dae-dashboard-2026",
+            storageBucket: "dae-dashboard-2026.firebasestorage.app",
+            messagingSenderId: "794919394282",
+            appId: "1:794919394282:web:36c644769fb6a9312bb093"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log('🔥 Firebase conectado!');
+
         // ============================================
         // DADOS
         // ============================================
@@ -852,31 +857,77 @@
         let charts = {};
 
         // ============================================
-        // CARREGAR DADOS
+        // FUNÇÕES FIREBASE
         // ============================================
-        function carregarDados() {
+
+        // Salvar dados no Firebase
+        async function salvarDadosFirebase(acoes) {
+            try {
+                await db.collection('acoes').doc('lista').set({ dados: acoes });
+                console.log('✅ Dados salvos no Firebase!');
+            } catch (error) {
+                console.error('❌ Erro ao salvar no Firebase:', error);
+            }
+        }
+
+        // Carregar dados do Firebase
+        async function carregarDadosFirebase() {
+            try {
+                const doc = await db.collection('acoes').doc('lista').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (data && data.dados) {
+                        acoes = data.dados;
+                        dadosFiltrados = [...acoes];
+                        atualizarTudo();
+                        console.log(`✅ ${acoes.length} ações carregadas do Firebase!`);
+                        return true;
+                    }
+                }
+                console.log('📭 Nenhum dado encontrado no Firebase');
+                return false;
+            } catch (error) {
+                console.error('❌ Erro ao carregar do Firebase:', error);
+                return false;
+            }
+        }
+
+        // ============================================
+        // FUNÇÕES DE SALVAMENTO LOCAL (FALLBACK)
+        // ============================================
+        function salvarDadosLocal() {
+            try {
+                localStorage.setItem('acoes_dae_2026', JSON.stringify(acoes));
+            } catch (e) {
+                console.error('❌ Erro ao salvar localmente:', e);
+            }
+        }
+
+        function carregarDadosLocal() {
             try {
                 const dados = localStorage.getItem('acoes_dae_2026');
                 if (dados) {
                     acoes = JSON.parse(dados);
-                } else {
-                    acoes = [
-                        { id: 'DAE-2026-001', periodo: '1º semestre', status: 'Em andamento', eixo: 'Assistência Estudantil', acao: 'Editais dos Programas', responsavel: 'Gabriela Corrêa', cargo: 'Assistente Social', prioridade: 'Alta', descricao: 'Revisão e adequação dos editais', campus: 'Centro-Serrano; Viana', dataInicio: '01/02/2026', dataFim: '30/06/2026', riscos: 'Permanência e Êxito', impacto: 'Contribui para permanência estudantil', resultados: 'Editais publicados' },
-                        { id: 'DAE-2026-002', periodo: '1º semestre', status: 'Executada', eixo: 'Assistência Estudantil', acao: 'Programa Bolsa Permanência', responsavel: 'Karina Alves', cargo: 'Nutricionista', prioridade: 'Alta', descricao: 'Acompanhamento mensal do desempenho', campus: 'Reitoria', dataInicio: '01/01/2026', dataFim: '31/03/2026', riscos: 'Permanência e Êxito', impacto: 'Contribui para permanência estudantil', resultados: 'Homologação mensal das bolsas' }
-                    ];
-                    salvarDados();
+                    dadosFiltrados = [...acoes];
+                    atualizarTudo();
+                    return true;
                 }
-                dadosFiltrados = [...acoes];
-                atualizarTudo();
-            } catch (e) { console.error('Erro ao carregar:', e); }
-        }
-
-        function salvarDados() {
-            try { localStorage.setItem('acoes_dae_2026', JSON.stringify(acoes)); } catch (e) { console.error('Erro ao salvar:', e); }
+            } catch (e) {
+                console.error('❌ Erro ao carregar localmente:', e);
+            }
+            return false;
         }
 
         // ============================================
-        // ATUALIZAR
+        // FUNÇÃO PRINCIPAL DE SALVAR (USA FIREBASE + LOCAL)
+        // ============================================
+        function salvarDados() {
+            salvarDadosLocal();
+            salvarDadosFirebase(acoes);
+        }
+
+        // ============================================
+        // ATUALIZAR TUDO
         // ============================================
         function atualizarTudo() {
             atualizarStatus();
@@ -886,6 +937,9 @@
             atualizarGraficos();
         }
 
+        // ============================================
+        // ATUALIZAR STATUS
+        // ============================================
         function atualizarStatus() {
             const total = dadosFiltrados.length;
             const executadas = dadosFiltrados.filter(a => a.status === 'Executada').length;
@@ -901,6 +955,9 @@
             document.getElementById('totalCampi').textContent = campi.size || 0;
         }
 
+        // ============================================
+        // ATUALIZAR CARDS
+        // ============================================
         function atualizarCards() {
             const eixos = ['Assistência Estudantil', 'Alimentação e Nutrição', 'Gênero e Sexualidades', 'Educação Especial'];
             const ids = ['cardAssistencia', 'cardAlimentacao', 'cardGenero', 'cardEducacao'];
@@ -912,20 +969,33 @@
         }
 
         // ============================================
-        // FILTROS
+        // PREENCHER FILTROS
         // ============================================
         function preencherFiltros() {
             const eixos = [...new Set(acoes.map(a => a.eixo))].sort();
             const selectEixo = document.getElementById('filterEixo');
             selectEixo.innerHTML = '<option value="todos">Todos</option>';
-            eixos.forEach(e => { const opt = document.createElement('option'); opt.value = e; opt.textContent = e; selectEixo.appendChild(opt); });
+            eixos.forEach(e => {
+                const opt = document.createElement('option');
+                opt.value = e;
+                opt.textContent = e;
+                selectEixo.appendChild(opt);
+            });
 
             const responsaveis = [...new Set(acoes.map(a => a.responsavel))].sort();
             const selectResp = document.getElementById('filterResponsavel');
             selectResp.innerHTML = '<option value="todos">Todos</option>';
-            responsaveis.forEach(r => { const opt = document.createElement('option'); opt.value = r; opt.textContent = r; selectResp.appendChild(opt); });
+            responsaveis.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r;
+                opt.textContent = r;
+                selectResp.appendChild(opt);
+            });
         }
 
+        // ============================================
+        // FILTRAR DADOS
+        // ============================================
         function filtrarDados() {
             const eixo = document.getElementById('filterEixo').value;
             const status = document.getElementById('filterStatus').value;
@@ -965,7 +1035,7 @@
         }
 
         // ============================================
-        // TABELA
+        // RENDER TABELA
         // ============================================
         function renderTabela() {
             const busca = document.getElementById('tableBusca').value.toLowerCase();
@@ -1171,8 +1241,23 @@
         // ============================================
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
-        carregarDados();
+
+        // Tentar carregar do Firebase primeiro
+        carregarDadosFirebase().then(carregado => {
+            if (!carregado) {
+                // Fallback para localStorage
+                carregarDadosLocal();
+            }
+        });
+
+        // Backup automático a cada 5 minutos
+        setInterval(() => {
+            if (acoes.length > 0) salvarDadosFirebase(acoes);
+        }, 300000);
+
+        console.log('🔥 Sistema DAE 2026 inicializado!');
     </script>
+
 </body>
 
 </html>
