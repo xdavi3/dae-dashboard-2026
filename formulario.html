@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Nova Ação DAE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        h1 {
+            color: #1a237e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #1a237e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #bdbdbd;
+        }
+
+        .btn-success {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #c62828;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b71c1c;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .form-group label .required {
+            color: #c62828;
+            margin-left: 4px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1a237e;
+            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .success-message {
+            background: #c8e6c9;
+            color: #1b5e20;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            display: none;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .error-message {
+            background: #ffcdd2;
+            color: #b71c1c;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            display: none;
+            border-left: 4px solid #c62828;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .preview {
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .preview.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f5f5;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .status-bar .count {
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>📋 Nova Ação DAE</h1>
+                <p class="subtitle">Preencha os dados para adicionar ao relatório</p>
+            </div>
+            <div>
+                <a href="dashboard.html" class="btn btn-secondary">📊 Voltar ao Dashboard</a>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span>📊 <span class="count" id="totalAcoes">0</span> ações cadastradas</span>
+            <span>✅ <span class="count" id="totalExecutadas">0</span> executadas</span>
+            <span>⏳ <span class="count" id="totalAndamento">0</span> em andamento</span>
+            <span>⭐ <span class="count" id="totalPrioridade">0</span> prioridade alta</span>
+        </div>
+
+        <form id="formAcao">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Período <span class="required">*</span></label>
+                    <select id="periodo" required>
+                        <option value="1º semestre">1º Semestre</option>
+                        <option value="2º semestre">2º Semestre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status <span class="required">*</span></label>
+                    <select id="status" required>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Executada">Executada</option>
+                        <option value="Planejada">Planejada</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Eixo de Atuação <span class="required">*</span></label>
+                    <select id="eixo" required>
+                        <option value="Assistência Estudantil">Assistência Estudantil</option>
+                        <option value="Alimentação e Nutrição">Alimentação e Nutrição</option>
+                        <option value="Gênero e Sexualidades">Gênero e Sexualidades</option>
+                        <option value="Educação Especial">Educação Especial</option>
+                        <option value="ERER">ERER</option>
+                        <option value="Comissão Qualidade de Vida do Trabalhador">Qualidade de Vida</option>
+                        <option value="Representante Proen">Representante PROEN</option>
+                        <option value="NEPGENS">NEPGENS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Prioridade</label>
+                    <select id="prioridade">
+                        <option value="Alta">Alta</option>
+                        <option value="Média">Média</option>
+                        <option value="Baixa">Baixa</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Ação/Atividade <span class="required">*</span></label>
+                <input type="text" id="acao" placeholder="Ex: Editais dos Programas da Assistência Estudantil" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Responsável <span class="required">*</span></label>
+                    <input type="text" id="responsavel" placeholder="Ex: Gabriela Corrêa" required>
+                    <small style="color: #999; font-size: 12px;">Digite o nome completo</small>
+                </div>
+                <div class="form-group">
+                    <label>Cargo</label>
+                    <input type="text" id="cargo" placeholder="Ex: Assistente Social">
+                    <small style="color: #999; font-size: 12px;">Preencha ou será detectado automaticamente</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Descrição Objetiva <span class="required">*</span></label>
+                <textarea id="descricao" placeholder="Descreva a ação, o que foi feito e quantitativos..."
+                    required></textarea>
+                <small style="color: #999; font-size: 12px;">Inclua números e campi mencionados</small>
+            </div>
+
+            <div class="form-group">
+                <label>Resultados e Encaminhamentos</label>
+                <textarea id="resultados" placeholder="Resultados obtidos e próximos passos..."></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Data de Início</label>
+                    <input type="date" id="dataInicio">
+                </div>
+                <div class="form-group">
+                    <label>Data de Fim</label>
+                    <input type="date" id="dataFim">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Alinhamento com Risco Institucional</label>
+                <select id="riscos" multiple style="height: 80px;">
+                    <option value="Permanência e Êxito">Permanência e Êxito</option>
+                    <option value="Ampliação de Vagas">Ampliação de Vagas</option>
+                    <option value="Fortalecimento de Cursos">Fortalecimento de Cursos</option>
+                    <option value="Fortalecimento de fluxos institucionais">Fortalecimento de fluxos</option>
+                    <option value="Fortalecimento institucional">Fortalecimento institucional</option>
+                </select>
+                <small style="color: #999; font-size: 12px;">Segure Ctrl para selecionar múltiplos</small>
+            </div>
+
+            <div class="form-group">
+                <label>Impacto Estratégico</label>
+                <textarea id="impacto"
+                    placeholder="Como a ação mitiga o risco ou ajuda a PROEN a atingir suas metas..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Campus</label>
+                <input type="text" id="campus" placeholder="Ex: Centro-Serrano; Viana">
+                <small style="color: #999; font-size: 12px;">Separe múltiplos campi com ;</small>
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="btn btn-secondary" onclick="limparFormulario()">🗑️ Limpar</button>
+                <button type="submit" class="btn btn-success" id="btnSalvar">💾 Salvar Ação</button>
+            </div>
+        </form>
+
+        <div id="successMessage" class="success-message">✅ Ação adicionada com sucesso!</div>
+        <div id="errorMessage" class="error-message">❌ Por favor, preencha todos os campos obrigatórios.</div>
+        <div id="preview" class="preview"><strong>📋 Dados salvos:</strong>
+            <div id="previewContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let acoes = [];
+        let editandoId = null;
+
+        function carregarDados() {
+            try {
+                const dados = localStorage.getItem('acoes_dae_2026');
+                if (dados) { acoes = JSON.parse(dados); atualizarStatus(); }
+            } catch (e) { console.log('Nenhum dado salvo ainda'); }
+        }
+
+        function salvarDados() {
+            try { localStorage.setItem('acoes_dae_2026', JSON.stringify(acoes)); atualizarStatus(); } catch (e) { console.error('Erro ao salvar:', e); }
+        }
+
+        function atualizarStatus() {
+            const total = acoes.length;
+            const executadas = acoes.filter(a => a.status === 'Executada').length;
+            const andamento = acoes.filter(a => a.status === 'Em andamento').length;
+            const prioridadeAlta = acoes.filter(a => a.prioridade === 'Alta').length;
+            document.getElementById('totalAcoes').textContent = total;
+            document.getElementById('totalExecutadas').textContent = executadas;
+            document.getElementById('totalAndamento').textContent = andamento;
+            document.getElementById('totalPrioridade').textContent = prioridadeAlta;
+        }
+
+        function detectarCargo(nome) {
+            const n = nome.toLowerCase();
+            if (n.includes('assistente social') || n.includes('assistente')) return 'Assistente Social';
+            if (n.includes('nutricionista')) return 'Nutricionista';
+            if (n.includes('psicólogo') || n.includes('psicóloga')) return 'Psicólogo(a)';
+            if (n.includes('pedagogo') || n.includes('pedagoga')) return 'Pedagogo(a)';
+            return '';
+        }
+
+        function detectarCampus(texto) {
+            const campi = ['Centro-Serrano', 'Viana', 'Barra de São Francisco', 'Cariacica', 'Serra', 'Vitória', 'Piúma', 'Cachoeiro', 'Colatina', 'Montanha', 'Nova Venécia'];
+            const encontrados = campi.filter(c => texto.toLowerCase().includes(c.toLowerCase()));
+            return encontrados.join('; ');
+        }
+
+        function gerarID() {
+            const nums = acoes.map(a => parseInt(a.id.replace('DAE-2026-', '')) || 0);
+            const max = nums.length > 0 ? Math.max(...nums) : 0;
+            return 'DAE-2026-' + String(max + 1).padStart(3, '0');
+        }
+
+        function mostrarToast(mensagem, tipo = 'success') {
+            const success = document.getElementById('successMessage');
+            const error = document.getElementById('errorMessage');
+            if (tipo === 'success') {
+                success.textContent = mensagem;
+                success.className = 'success-message show';
+                error.className = 'error-message';
+                setTimeout(() => success.classList.remove('show'), 3000);
+            } else {
+                error.textContent = mensagem;
+                error.className = 'error-message show';
+                success.className = 'success-message';
+                setTimeout(() => error.classList.remove('show'), 3000);
+            }
+        }
+
+        function mostrarPreview(acao) {
+            const preview = document.getElementById('preview');
+            document.getElementById('previewContent').innerHTML = `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;font-size:13px;">
+                    <div><strong>ID:</strong> ${acao.id}</div>
+                    <div><strong>Status:</strong> ${acao.status}</div>
+                    <div><strong>Eixo:</strong> ${acao.eixo}</div>
+                    <div><strong>Prioridade:</strong> ${acao.prioridade}</div>
+                    <div style="grid-column:1/-1;"><strong>Ação:</strong> ${acao.acao}</div>
+                    <div style="grid-column:1/-1;"><strong>Responsável:</strong> ${acao.responsavel} (${acao.cargo || 'N/A'})</div>
+                    <div style="grid-column:1/-1;"><strong>Campus:</strong> ${acao.campus || 'Reitoria'}</div>
+                </div>
+            `;
+            preview.classList.add('show');
+        }
+
+        function limparFormulario() {
+            document.getElementById('formAcao').reset();
+            document.getElementById('cargo').value = '';
+            document.getElementById('dataInicio').value = '';
+            document.getElementById('dataFim').value = '';
+            document.getElementById('campus').value = '';
+            document.getElementById('resultados').value = '';
+            document.getElementById('impacto').value = '';
+            document.getElementById('preview').classList.remove('show');
+            document.getElementById('acao').focus();
+            const btn = document.getElementById('btnSalvar');
+            btn.textContent = '💾 Salvar Ação';
+            btn.className = 'btn btn-success';
+            editandoId = null;
+        }
+
+        function carregarParaEdicao(id) {
+            const acao = acoes.find(a => a.id === id);
+            if (!acao) return;
+            document.getElementById('periodo').value = acao.periodo || '1º semestre';
+            document.getElementById('status').value = acao.status || 'Em andamento';
+            document.getElementById('eixo').value = acao.eixo || 'Assistência Estudantil';
+            document.getElementById('prioridade').value = acao.prioridade || 'Média';
+            document.getElementById('acao').value = acao.acao || '';
+            document.getElementById('responsavel').value = acao.responsavel || '';
+            document.getElementById('cargo').value = acao.cargo || '';
+            document.getElementById('descricao').value = acao.descricao || '';
+            document.getElementById('resultados').value = acao.resultados || '';
+            document.getElementById('impacto').value = acao.impacto || '';
+            document.getElementById('campus').value = acao.campus || '';
+            document.getElementById('dataInicio').value = acao.dataInicio || '';
+            document.getElementById('dataFim').value = acao.dataFim || '';
+            const btn = document.getElementById('btnSalvar');
+            btn.textContent = '✏️ Atualizar Ação';
+            btn.className = 'btn btn-primary';
+            editandoId = id;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById('formAcao').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const periodo = document.getElementById('periodo').value;
+            const status = document.getElementById('status').value;
+            const eixo = document.getElementById('eixo').value;
+            const acao = document.getElementById('acao').value.trim();
+            const responsavel = document.getElementById('responsavel').value.trim();
+            const cargo = document.getElementById('cargo').value.trim() || detectarCargo(responsavel);
+            const descricao = document.getElementById('descricao').value.trim();
+            const resultados = document.getElementById('resultados').value.trim();
+            const dataInicio = document.getElementById('dataInicio').value;
+            const dataFim = document.getElementById('dataFim').value;
+            const prioridade = document.getElementById('prioridade').value;
+            const riscosSelect = document.getElementById('riscos');
+            const riscos = Array.from(riscosSelect.selectedOptions).map(opt => opt.value).join('; ');
+            const impacto = document.getElementById('impacto').value.trim();
+            const campus = document.getElementById('campus').value.trim() || detectarCampus(descricao);
+
+            if (!periodo || !status || !eixo || !acao || !responsavel || !descricao) {
+                mostrarToast('Por favor, preencha todos os campos obrigatórios.', 'error');
+                return;
+            }
+
+            const novaAcao = { periodo, status, eixo, acao, responsavel, cargo, descricao, resultados, dataInicio, dataFim, prioridade, riscos, impacto, campus };
+
+            if (editandoId) {
+                const index = acoes.findIndex(a => a.id === editandoId);
+                if (index !== -1) {
+                    acoes[index] = { ...acoes[index], ...novaAcao, id: editandoId };
+                    salvarDados();
+                    mostrarToast('✅ Ação atualizada com sucesso!', 'success');
+                    limparFormulario();
+                    mostrarPreview(acoes[index]);
+                }
+            } else {
+                novaAcao.id = gerarID();
+                acoes.push(novaAcao);
+                salvarDados();
+                mostrarToast('✅ Ação adicionada com sucesso!', 'success');
+                limparFormulario();
+                mostrarPreview(novaAcao);
+            }
+        });
+
+        document.getElementById('responsavel').addEventListener('input', function () {
+            const cargo = detectarCargo(this.value);
+            if (cargo && !document.getElementById('cargo').value) {
+                document.getElementById('cargo').value = cargo;
+            }
+        });
+
+        document.getElementById('descricao').addEventListener('input', function () {
+            const campus = detectarCampus(this.value);
+            if (campus && !document.getElementById('campus').value) {
+                document.getElementById('campus').value = campus;
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const editId = urlParams.get('edit');
+        if (editId) carregarParaEdicao(editId);
+
+        carregarDados();
+        console.log('📋 Formulário DAE carregado!');
+        console.log(`📊 ${acoes.length} ações em memória`);
+    </script>
+</body>
+
+</html>
