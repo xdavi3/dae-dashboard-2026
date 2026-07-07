@@ -1,240 +1,203 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📋 Nova Ação DAE</title>
+    <meta name="description" content="Formulário de cadastro de ações da DAE 2026 - Ifes">
+    <title>📋 Nova Ação DAE 2026</title>
+
+    <!-- Estilos compartilhados -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Estilos específicos do Formulário -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f4f8;
-            padding: 20px;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 800px;
+        .page-wrapper {
+            max-width: 820px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .header {
+        /* HEADER DO FORMULÁRIO */
+        .form-header {
+            background: var(--bg-header);
+            color: white;
+            padding: 20px 28px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
             flex-wrap: wrap;
             gap: 12px;
+            box-shadow: var(--shadow);
         }
 
-        h1 {
-            color: #1a237e;
+        .form-header h1 {
+            font-size: 22px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 24px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: #1a237e;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #0d47a1;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #bdbdbd;
-        }
-
-        .btn-success {
-            background: #2e7d32;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #1b5e20;
-            transform: translateY(-2px);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 6px;
-        }
-
-        .form-group label .required {
-            color: #c62828;
-            margin-left: 4px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #1a237e;
-            box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
-        }
-
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .success-message {
-            background: #c8e6c9;
-            color: #1b5e20;
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 16px;
-            display: none;
-            border-left: 4px solid #2e7d32;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        .error-message {
-            background: #ffcdd2;
-            color: #b71c1c;
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 16px;
-            display: none;
-            border-left: 4px solid #c62828;
-        }
-
-        .error-message.show {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .preview {
-            background: #f5f5f5;
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 16px;
+        .form-header p {
             font-size: 13px;
-            display: none;
+            opacity: 0.8;
+            margin-top: 4px;
         }
 
-        .preview.show {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
+        /* STATUS BAR */
         .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #f5f5f5;
+            background: var(--bg-card);
             padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 24px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
             flex-wrap: wrap;
             gap: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            font-size: 13px;
         }
 
         .status-bar .count {
-            font-weight: 600;
-            color: #1a237e;
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        /* CARD DO FORMULÁRIO */
+        .form-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* SELECT MÚLTIPLO */
+        .form-group select[multiple] {
+            height: 90px;
+        }
+
+        /* BOTÕES */
+        .form-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        /* MENSAGENS */
+        .feedback-message {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-top: 16px;
+            display: none;
+            animation: fadeUp 0.3s ease-out;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .feedback-message.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feedback-success {
+            background: #c8e6c9;
+            color: #1b5e20;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .feedback-error {
+            background: #ffcdd2;
+            color: #b71c1c;
+            border-left: 4px solid #c62828;
+        }
+
+        /* PREVIEW */
+        .preview-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            display: none;
+            animation: fadeUp 0.3s ease-out;
+        }
+
+        .preview-card.show {
+            display: block;
+        }
+
+        .preview-card h4 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .preview-grid .full {
+            grid-column: 1 / -1;
+        }
+
+        .preview-grid strong {
+            color: var(--text-secondary);
+            font-size: 11px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* BOTÃO DE SALVAR COM LOADING */
+        .btn-saving {
+            opacity: 0.75;
+            pointer-events: none;
         }
 
         @media (max-width: 600px) {
-            .form-row {
+            .form-buttons {
                 grid-template-columns: 1fr;
             }
 
-            .buttons {
+            .preview-grid {
                 grid-template-columns: 1fr;
             }
 
-            .container {
-                padding: 16px;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
+            .form-card {
+                padding: 18px;
             }
         }
     </style>
@@ -242,256 +205,332 @@
 
 <body>
     <div class="container">
-        <div class="header">
-            <div>
-                <h1>📋 Nova Ação DAE</h1>
-                <p class="subtitle">Preencha os dados para adicionar ao relatório</p>
-            </div>
-            <div>
-                <a href="dashboard.html" class="btn btn-secondary">📊 Voltar ao Dashboard</a>
-            </div>
-        </div>
+        <div class="page-wrapper">
 
-        <div class="status-bar">
-            <span>📊 <span class="count" id="totalAcoes">0</span> ações cadastradas</span>
-            <span>✅ <span class="count" id="totalExecutadas">0</span> executadas</span>
-            <span>⏳ <span class="count" id="totalAndamento">0</span> em andamento</span>
-            <span>⭐ <span class="count" id="totalPrioridade">0</span> prioridade alta</span>
-        </div>
-
-        <form id="formAcao">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Período <span class="required">*</span></label>
-                    <select id="periodo" required>
-                        <option value="1º semestre">1º Semestre</option>
-                        <option value="2º semestre">2º Semestre</option>
-                    </select>
+            <!-- HEADER -->
+            <header class="form-header">
+                <div>
+                    <h1>📋 Nova Ação DAE</h1>
+                    <p>Preencha os dados para adicionar ao relatório</p>
                 </div>
-                <div class="form-group">
-                    <label>Status <span class="required">*</span></label>
-                    <select id="status" required>
-                        <option value="Em andamento">Em andamento</option>
-                        <option value="Executada">Executada</option>
-                        <option value="Planejada">Planejada</option>
-                    </select>
+                <div style="display:flex;gap:10px;">
+                    <a href="dashboard.html" class="btn btn-secondary" id="btnVoltarDashboard">📊 Dashboard</a>
+                    <button class="btn btn-secondary" onclick="toggleTheme()" id="btnToggleTema">🌓</button>
                 </div>
+            </header>
+
+            <!-- STATUS BAR -->
+            <div class="status-bar">
+                <span>📊 <span class="count" id="totalAcoes">—</span> cadastradas</span>
+                <span>✅ <span class="count" id="totalExecutadas">—</span> executadas</span>
+                <span>⏳ <span class="count" id="totalAndamento">—</span> em andamento</span>
+                <span>⭐ <span class="count" id="totalPrioridade">—</span> prioridade alta</span>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Eixo de Atuação <span class="required">*</span></label>
-                    <select id="eixo" required>
-                        <option value="Assistência Estudantil">Assistência Estudantil</option>
-                        <option value="Alimentação e Nutrição">Alimentação e Nutrição</option>
-                        <option value="Gênero e Sexualidades">Gênero e Sexualidades</option>
-                        <option value="Educação Especial">Educação Especial</option>
-                        <option value="ERER">ERER</option>
-                        <option value="Comissão Qualidade de Vida do Trabalhador">Qualidade de Vida</option>
-                        <option value="Representante Proen">Representante PROEN</option>
-                        <option value="NEPGENS">NEPGENS</option>
-                    </select>
+            <!-- FORMULÁRIO -->
+            <div class="form-card">
+                <form id="formAcao" novalidate>
+
+                    <!-- SEÇÃO 1: CLASSIFICAÇÃO -->
+                    <p class="section-title">📁 Classificação</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="periodo">Período <span class="required">*</span></label>
+                            <select id="periodo" required>
+                                <option value="1º semestre">1º Semestre</option>
+                                <option value="2º semestre">2º Semestre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status <span class="required">*</span></label>
+                            <select id="status" required>
+                                <option value="Em andamento">Em andamento</option>
+                                <option value="Executada">Executada</option>
+                                <option value="Planejada">Planejada</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eixo">Eixo de Atuação <span class="required">*</span></label>
+                            <select id="eixo" required>
+                                <!-- Preenchido dinamicamente via app.js EIXOS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prioridade">Prioridade</label>
+                            <select id="prioridade">
+                                <option value="Alta">Alta</option>
+                                <option value="Média">Média</option>
+                                <option value="Baixa">Baixa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO 2: IDENTIFICAÇÃO -->
+                    <p class="section-title">📝 Identificação da Ação</p>
+                    <div class="form-group">
+                        <label for="acao">Ação/Atividade <span class="required">*</span></label>
+                        <input type="text" id="acao" placeholder="Ex: Editais dos Programas da Assistência Estudantil" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="responsavel">Responsável <span class="required">*</span></label>
+                            <input type="text" id="responsavel" placeholder="Ex: Gabriela Corrêa" required>
+                            <small>Digite o nome completo</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" id="cargo" placeholder="Ex: Assistente Social">
+                            <small>Preenchido automaticamente ao digitar o nome</small>
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO 3: DETALHES -->
+                    <p class="section-title">🗒️ Detalhes</p>
+                    <div class="form-group">
+                        <label for="descricao">Descrição Objetiva <span class="required">*</span></label>
+                        <textarea id="descricao" placeholder="Descreva a ação, o que foi feito e quantitativos..." required></textarea>
+                        <small>Inclua números, resultados e campi mencionados</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resultados">Resultados e Encaminhamentos</label>
+                        <textarea id="resultados" placeholder="Resultados obtidos e próximos passos..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dataInicio">Data de Início</label>
+                            <input type="date" id="dataInicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="dataFim">Data de Fim</label>
+                            <input type="date" id="dataFim">
+                        </div>
+                    </div>
+
+                    <!-- SEÇÃO 4: ALINHAMENTO -->
+                    <p class="section-title">🎯 Alinhamento Estratégico</p>
+                    <div class="form-group">
+                        <label for="riscos">Alinhamento com Risco Institucional</label>
+                        <select id="riscos" multiple>
+                            <option value="Permanência e Êxito">Permanência e Êxito</option>
+                            <option value="Ampliação de Vagas">Ampliação de Vagas</option>
+                            <option value="Fortalecimento de Cursos">Fortalecimento de Cursos</option>
+                            <option value="Fortalecimento de fluxos institucionais">Fortalecimento de fluxos</option>
+                            <option value="Fortalecimento institucional">Fortalecimento institucional</option>
+                        </select>
+                        <small>Segure Ctrl (ou Cmd no Mac) para selecionar múltiplos</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="impacto">Impacto Estratégico</label>
+                        <textarea id="impacto" placeholder="Como a ação mitiga o risco ou ajuda a PROEN a atingir suas metas..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="campus">Campus</label>
+                        <input type="text" id="campus" placeholder="Ex: Centro-Serrano; Viana">
+                        <small>Separe múltiplos campi com ponto-e-vírgula (;) · Detectado automaticamente da descrição</small>
+                    </div>
+
+                    <!-- BOTÕES -->
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-secondary-dark" onclick="limparFormulario()" id="btnLimpar">🗑️ Limpar</button>
+                        <button type="submit" class="btn btn-success" id="btnSalvar">💾 Salvar Ação</button>
+                    </div>
+
+                </form>
+
+                <!-- MENSAGENS DE FEEDBACK -->
+                <div id="msgSucesso" class="feedback-message feedback-success" role="alert">
+                    <span>✅</span><span id="msgSucessoTexto">Ação adicionada com sucesso!</span>
                 </div>
-                <div class="form-group">
-                    <label>Prioridade</label>
-                    <select id="prioridade">
-                        <option value="Alta">Alta</option>
-                        <option value="Média">Média</option>
-                        <option value="Baixa">Baixa</option>
-                    </select>
+                <div id="msgErro" class="feedback-message feedback-error" role="alert">
+                    <span>❌</span><span id="msgErroTexto">Por favor, preencha todos os campos obrigatórios.</span>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Ação/Atividade <span class="required">*</span></label>
-                <input type="text" id="acao" placeholder="Ex: Editais dos Programas da Assistência Estudantil" required>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Responsável <span class="required">*</span></label>
-                    <input type="text" id="responsavel" placeholder="Ex: Gabriela Corrêa" required>
-                    <small style="color: #999; font-size: 12px;">Digite o nome completo</small>
+                <!-- PREVIEW -->
+                <div id="previewCard" class="preview-card">
+                    <h4>📋 Dados Salvos</h4>
+                    <div class="preview-grid" id="previewContent"></div>
                 </div>
-                <div class="form-group">
-                    <label>Cargo</label>
-                    <input type="text" id="cargo" placeholder="Ex: Assistente Social">
-                    <small style="color: #999; font-size: 12px;">Preencha ou será detectado automaticamente</small>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <label>Descrição Objetiva <span class="required">*</span></label>
-                <textarea id="descricao" placeholder="Descreva a ação, o que foi feito e quantitativos..."
-                    required></textarea>
-                <small style="color: #999; font-size: 12px;">Inclua números e campi mencionados</small>
-            </div>
+            </div><!-- /form-card -->
+        </div><!-- /page-wrapper -->
+    </div><!-- /container -->
 
-            <div class="form-group">
-                <label>Resultados e Encaminhamentos</label>
-                <textarea id="resultados" placeholder="Resultados obtidos e próximos passos..."></textarea>
-            </div>
+    <!-- TOAST -->
+    <div class="toast" id="toast" role="alert" aria-live="polite"></div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Data de Início</label>
-                    <input type="date" id="dataInicio">
-                </div>
-                <div class="form-group">
-                    <label>Data de Fim</label>
-                    <input type="date" id="dataFim">
-                </div>
-            </div>
+    <!--
+        IMPORTANTE: Firebase DEVE ser carregado ANTES dos scripts que o usam.
+        Ordem obrigatória: firebase SDKs → firebase-config.js → app.js → script da página
+    -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
 
-            <div class="form-group">
-                <label>Alinhamento com Risco Institucional</label>
-                <select id="riscos" multiple style="height: 80px;">
-                    <option value="Permanência e Êxito">Permanência e Êxito</option>
-                    <option value="Ampliação de Vagas">Ampliação de Vagas</option>
-                    <option value="Fortalecimento de Cursos">Fortalecimento de Cursos</option>
-                    <option value="Fortalecimento de fluxos institucionais">Fortalecimento de fluxos</option>
-                    <option value="Fortalecimento institucional">Fortalecimento institucional</option>
-                </select>
-                <small style="color: #999; font-size: 12px;">Segure Ctrl para selecionar múltiplos</small>
-            </div>
-
-            <div class="form-group">
-                <label>Impacto Estratégico</label>
-                <textarea id="impacto"
-                    placeholder="Como a ação mitiga o risco ou ajuda a PROEN a atingir suas metas..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Campus</label>
-                <input type="text" id="campus" placeholder="Ex: Centro-Serrano; Viana">
-                <small style="color: #999; font-size: 12px;">Separe múltiplos campi com ;</small>
-            </div>
-
-            <div class="buttons">
-                <button type="button" class="btn btn-secondary" onclick="limparFormulario()">🗑️ Limpar</button>
-                <button type="submit" class="btn btn-success" id="btnSalvar">💾 Salvar Ação</button>
-            </div>
-        </form>
-
-        <div id="successMessage" class="success-message">✅ Ação adicionada com sucesso!</div>
-        <div id="errorMessage" class="error-message">❌ Por favor, preencha todos os campos obrigatórios.</div>
-        <div id="preview" class="preview"><strong>📋 Dados salvos:</strong>
-            <div id="previewContent"></div>
-        </div>
-    </div>
-
+    <!-- Script do Formulário -->
     <script>
         // ============================================
-        // DADOS
+        // ESTADO
         // ============================================
         let acoes = [];
         let editandoId = null;
 
         // ============================================
+        // INICIALIZAR SELECT DE EIXOS
+        // ============================================
+        preencherSelectEixos(document.getElementById('eixo'));
+
+        // ============================================
         // CARREGAR DADOS
         // ============================================
-        function carregarDados() {
-            try {
-                const dados = localStorage.getItem('acoes_dae_2026');
-                if (dados) {
-                    acoes = JSON.parse(dados);
-                    atualizarStatus();
-                }
-            } catch (e) {
-                console.log('📭 Nenhum dado local');
-            }
-        }
-
-        // ============================================
-        // SALVAR DADOS (com Firebase)
-        // ============================================
-        function salvarDados() {
-            try {
-                localStorage.setItem('acoes_dae_2026', JSON.stringify(acoes));
-                salvarDadosFirebase(acoes);
-                atualizarStatus();
-            } catch (e) {
-                console.error('❌ Erro ao salvar:', e);
-            }
-        }
-
-        // ============================================
-        // ATUALIZAR STATUS
-        // ============================================
-        function atualizarStatus() {
-            const total = acoes.length;
-            const executadas = acoes.filter(a => a.status === 'Executada').length;
-            const andamento = acoes.filter(a => a.status === 'Em andamento').length;
-            const prioridadeAlta = acoes.filter(a => a.prioridade === 'Alta').length;
-            document.getElementById('totalAcoes').textContent = total;
-            document.getElementById('totalExecutadas').textContent = executadas;
-            document.getElementById('totalAndamento').textContent = andamento;
-            document.getElementById('totalPrioridade').textContent = prioridadeAlta;
-        }
-
-        // ============================================
-        // DETECÇÃO AUTOMÁTICA
-        // ============================================
-        function detectarCargo(nome) {
-            const n = nome.toLowerCase();
-            if (n.includes('assistente social') || n.includes('assistente')) return 'Assistente Social';
-            if (n.includes('nutricionista')) return 'Nutricionista';
-            if (n.includes('psicólogo') || n.includes('psicóloga')) return 'Psicólogo(a)';
-            if (n.includes('pedagogo') || n.includes('pedagoga')) return 'Pedagogo(a)';
-            return '';
-        }
-
-        function detectarCampus(texto) {
-            const campi = ['Centro-Serrano', 'Viana', 'Barra de São Francisco', 'Cariacica', 'Serra', 'Vitória', 'Piúma', 'Cachoeiro', 'Colatina', 'Montanha', 'Nova Venécia'];
-            const encontrados = campi.filter(c => texto.toLowerCase().includes(c.toLowerCase()));
-            return encontrados.join('; ');
-        }
-
-        // ============================================
-        // GERAR ID
-        // ============================================
-        function gerarID() {
-            const nums = acoes.map(a => parseInt(a.id?.replace('DAE-2026-', '')) || 0);
-            const max = nums.length > 0 ? Math.max(...nums) : 0;
-            return 'DAE-2026-' + String(max + 1).padStart(3, '0');
-        }
-
-        // ============================================
-        // TOAST
-        // ============================================
-        function mostrarToast(mensagem, tipo = 'success') {
-            const success = document.getElementById('successMessage');
-            const error = document.getElementById('errorMessage');
-            if (tipo === 'success') {
-                success.textContent = mensagem;
-                success.className = 'success-message show';
-                error.className = 'error-message';
-                setTimeout(() => success.classList.remove('show'), 3000);
+        async function inicializar() {
+            // Tenta Firebase primeiro para ter os dados mais atuais
+            const dadosFirebase = await carregarDadosFirebase();
+            if (dadosFirebase) {
+                acoes = dadosFirebase;
+                salvarDadosLocal(acoes);
             } else {
-                error.textContent = mensagem;
-                error.className = 'error-message show';
-                success.className = 'success-message';
-                setTimeout(() => error.classList.remove('show'), 3000);
+                const dadosLocal = carregarDadosLocal();
+                if (dadosLocal) acoes = dadosLocal;
             }
+            atualizarStatusBar();
+
+            // Verifica se veio para editar via URL: formulario.html?edit=DAE-2026-001
+            const urlParams = new URLSearchParams(window.location.search);
+            const editId = urlParams.get('edit');
+            if (editId) carregarParaEdicao(editId);
+
+            console.log(`📋 Formulário pronto. ${acoes.length} ações em memória.`);
+        }
+
+        // ============================================
+        // STATUS BAR
+        // ============================================
+        function atualizarStatusBar() {
+            document.getElementById('totalAcoes').textContent = acoes.length;
+            document.getElementById('totalExecutadas').textContent = acoes.filter(a => a.status === 'Executada').length;
+            document.getElementById('totalAndamento').textContent = acoes.filter(a => a.status === 'Em andamento').length;
+            document.getElementById('totalPrioridade').textContent = acoes.filter(a => a.prioridade === 'Alta').length;
+        }
+
+        // ============================================
+        // SALVAR DADOS
+        // ============================================
+        async function persistirDados() {
+            salvarDadosLocal(acoes);
+            await salvarDadosFirebase(acoes);
+            atualizarStatusBar();
+        }
+
+        // ============================================
+        // SUBMIT DO FORMULÁRIO
+        // ============================================
+        document.getElementById('formAcao').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            esconderMensagens();
+
+            const campos = {
+                periodo:    document.getElementById('periodo').value,
+                status:     document.getElementById('status').value,
+                eixo:       document.getElementById('eixo').value,
+                acao:       document.getElementById('acao').value.trim(),
+                responsavel:document.getElementById('responsavel').value.trim(),
+                descricao:  document.getElementById('descricao').value.trim()
+            };
+
+            // Validação
+            if (!campos.acao || !campos.responsavel || !campos.descricao) {
+                mostrarMensagem('error', 'Por favor, preencha todos os campos obrigatórios (*).');
+                document.getElementById('acao').focus();
+                return;
+            }
+
+            const riscosEl = document.getElementById('riscos');
+            const cargo = document.getElementById('cargo').value.trim() || detectarCargo(campos.responsavel);
+            const campus = document.getElementById('campus').value.trim() || detectarCampus(campos.descricao);
+            const novaAcao = {
+                ...campos,
+                cargo,
+                resultados: document.getElementById('resultados').value.trim(),
+                dataInicio: document.getElementById('dataInicio').value,
+                dataFim:    document.getElementById('dataFim').value,
+                prioridade: document.getElementById('prioridade').value,
+                riscos:     Array.from(riscosEl.selectedOptions).map(o => o.value).join('; '),
+                impacto:    document.getElementById('impacto').value.trim(),
+                campus
+            };
+
+            // Botão de loading
+            const btn = document.getElementById('btnSalvar');
+            btn.classList.add('btn-saving');
+            btn.innerHTML = '<span class="loading-spinner"></span> Salvando...';
+
+            try {
+                if (editandoId) {
+                    const idx = acoes.findIndex(a => a.id === editandoId);
+                    if (idx !== -1) {
+                        acoes[idx] = { ...acoes[idx], ...novaAcao, id: editandoId };
+                        await persistirDados();
+                        mostrarMensagem('success', `✅ Ação "${editandoId}" atualizada com sucesso!`);
+                        mostrarPreview(acoes[idx]);
+                        limparFormulario();
+                    }
+                } else {
+                    novaAcao.id = gerarID(acoes);
+                    acoes.push(novaAcao);
+                    await persistirDados();
+                    mostrarMensagem('success', `✅ Ação "${novaAcao.id}" adicionada com sucesso!`);
+                    mostrarPreview(novaAcao);
+                    limparFormulario();
+                }
+            } catch (err) {
+                console.error(err);
+                mostrarMensagem('error', '❌ Erro ao salvar. Verifique a conexão e tente novamente.');
+            } finally {
+                btn.classList.remove('btn-saving');
+                btn.innerHTML = editandoId ? '✏️ Atualizar Ação' : '💾 Salvar Ação';
+            }
+        });
+
+        // ============================================
+        // FEEDBACK
+        // ============================================
+        function mostrarMensagem(tipo, texto) {
+            esconderMensagens();
+            const id = tipo === 'success' ? 'msgSucesso' : 'msgErro';
+            const textoId = tipo === 'success' ? 'msgSucessoTexto' : 'msgErroTexto';
+            document.getElementById(textoId).textContent = texto;
+            document.getElementById(id).classList.add('show');
+            setTimeout(() => document.getElementById(id).classList.remove('show'), 4000);
+        }
+
+        function esconderMensagens() {
+            document.getElementById('msgSucesso').classList.remove('show');
+            document.getElementById('msgErro').classList.remove('show');
         }
 
         // ============================================
         // PREVIEW
         // ============================================
-        function mostrarPreview(acao) {
-            const preview = document.getElementById('preview');
+        function mostrarPreview(a) {
             document.getElementById('previewContent').innerHTML = `
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;font-size:13px;">
-                    <div><strong>ID:</strong> ${acao.id}</div>
-                    <div><strong>Status:</strong> ${acao.status}</div>
-                    <div><strong>Eixo:</strong> ${acao.eixo}</div>
-                    <div><strong>Prioridade:</strong> ${acao.prioridade}</div>
-                    <div style="grid-column:1/-1;"><strong>Ação:</strong> ${acao.acao}</div>
-                    <div style="grid-column:1/-1;"><strong>Responsável:</strong> ${acao.responsavel} (${acao.cargo || 'N/A'})</div>
-                    <div style="grid-column:1/-1;"><strong>Campus:</strong> ${acao.campus || 'Reitoria'}</div>
-                </div>
+                <div><strong>ID</strong>${a.id}</div>
+                <div><strong>Status</strong>${a.status}</div>
+                <div><strong>Eixo</strong>${a.eixo}</div>
+                <div><strong>Prioridade</strong>${a.prioridade}</div>
+                <div class="full"><strong>Ação</strong>${a.acao}</div>
+                <div class="full"><strong>Responsável</strong>${a.responsavel}${a.cargo ? ` — ${a.cargo}` : ''}</div>
+                <div class="full"><strong>Campus</strong>${a.campus || 'Reitoria'}</div>
             `;
-            preview.classList.add('show');
+            document.getElementById('previewCard').classList.add('show');
         }
 
         // ============================================
@@ -499,18 +538,16 @@
         // ============================================
         function limparFormulario() {
             document.getElementById('formAcao').reset();
-            document.getElementById('cargo').value = '';
-            document.getElementById('dataInicio').value = '';
-            document.getElementById('dataFim').value = '';
-            document.getElementById('campus').value = '';
-            document.getElementById('resultados').value = '';
-            document.getElementById('impacto').value = '';
-            document.getElementById('preview').classList.remove('show');
-            document.getElementById('acao').focus();
+            // Reset extra dos campos não cobertos pelo reset()
+            ['cargo', 'campus', 'resultados', 'impacto'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            document.getElementById('previewCard').classList.remove('show');
+            editandoId = null;
             const btn = document.getElementById('btnSalvar');
             btn.textContent = '💾 Salvar Ação';
             btn.className = 'btn btn-success';
-            editandoId = null;
+            document.getElementById('acao').focus();
         }
 
         // ============================================
@@ -518,143 +555,54 @@
         // ============================================
         function carregarParaEdicao(id) {
             const acao = acoes.find(a => a.id === id);
-            if (!acao) return;
-            document.getElementById('periodo').value = acao.periodo || '1º semestre';
-            document.getElementById('status').value = acao.status || 'Em andamento';
-            document.getElementById('eixo').value = acao.eixo || 'Assistência Estudantil';
+            if (!acao) {
+                mostrarMensagem('error', `Ação "${id}" não encontrada.`);
+                return;
+            }
+            document.getElementById('periodo').value    = acao.periodo || '1º semestre';
+            document.getElementById('status').value     = acao.status || 'Em andamento';
+            document.getElementById('eixo').value       = acao.eixo || EIXOS[0];
             document.getElementById('prioridade').value = acao.prioridade || 'Média';
-            document.getElementById('acao').value = acao.acao || '';
-            document.getElementById('responsavel').value = acao.responsavel || '';
-            document.getElementById('cargo').value = acao.cargo || '';
-            document.getElementById('descricao').value = acao.descricao || '';
+            document.getElementById('acao').value       = acao.acao || '';
+            document.getElementById('responsavel').value= acao.responsavel || '';
+            document.getElementById('cargo').value      = acao.cargo || '';
+            document.getElementById('descricao').value  = acao.descricao || '';
             document.getElementById('resultados').value = acao.resultados || '';
-            document.getElementById('impacto').value = acao.impacto || '';
-            document.getElementById('campus').value = acao.campus || '';
+            document.getElementById('impacto').value    = acao.impacto || '';
+            document.getElementById('campus').value     = acao.campus || '';
             document.getElementById('dataInicio').value = acao.dataInicio || '';
-            document.getElementById('dataFim').value = acao.dataFim || '';
+            document.getElementById('dataFim').value    = acao.dataFim || '';
+
+            editandoId = id;
             const btn = document.getElementById('btnSalvar');
             btn.textContent = '✏️ Atualizar Ação';
             btn.className = 'btn btn-primary';
-            editandoId = id;
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            mostrarToast(`✏️ Editando: ${id}`, 'info');
         }
-
-        // ============================================
-        // SUBMIT DO FORMULÁRIO
-        // ============================================
-        document.getElementById('formAcao').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const periodo = document.getElementById('periodo').value;
-            const status = document.getElementById('status').value;
-            const eixo = document.getElementById('eixo').value;
-            const acao = document.getElementById('acao').value.trim();
-            const responsavel = document.getElementById('responsavel').value.trim();
-            const cargo = document.getElementById('cargo').value.trim() || detectarCargo(responsavel);
-            const descricao = document.getElementById('descricao').value.trim();
-            const resultados = document.getElementById('resultados').value.trim();
-            const dataInicio = document.getElementById('dataInicio').value;
-            const dataFim = document.getElementById('dataFim').value;
-            const prioridade = document.getElementById('prioridade').value;
-            const riscosSelect = document.getElementById('riscos');
-            const riscos = Array.from(riscosSelect.selectedOptions).map(opt => opt.value).join('; ');
-            const impacto = document.getElementById('impacto').value.trim();
-            const campus = document.getElementById('campus').value.trim() || detectarCampus(descricao);
-
-            if (!periodo || !status || !eixo || !acao || !responsavel || !descricao) {
-                mostrarToast('Por favor, preencha todos os campos obrigatórios.', 'error');
-                return;
-            }
-
-            const novaAcao = { periodo, status, eixo, acao, responsavel, cargo, descricao, resultados, dataInicio, dataFim, prioridade, riscos, impacto, campus };
-
-            if (editandoId) {
-                const index = acoes.findIndex(a => a.id === editandoId);
-                if (index !== -1) {
-                    acoes[index] = { ...acoes[index], ...novaAcao, id: editandoId };
-                    salvarDados();
-                    mostrarToast('✅ Ação atualizada com sucesso!', 'success');
-                    limparFormulario();
-                    mostrarPreview(acoes[index]);
-                }
-            } else {
-                novaAcao.id = gerarID();
-                acoes.push(novaAcao);
-                salvarDados();
-                mostrarToast('✅ Ação adicionada com sucesso!', 'success');
-                limparFormulario();
-                mostrarPreview(novaAcao);
-            }
-        });
 
         // ============================================
         // AUTO DETECÇÃO
         // ============================================
         document.getElementById('responsavel').addEventListener('input', function () {
             const cargo = detectarCargo(this.value);
-            if (cargo && !document.getElementById('cargo').value) {
-                document.getElementById('cargo').value = cargo;
-            }
+            const campoC = document.getElementById('cargo');
+            if (cargo && !campoC.value) campoC.value = cargo;
         });
 
         document.getElementById('descricao').addEventListener('input', function () {
             const campus = detectarCampus(this.value);
-            if (campus && !document.getElementById('campus').value) {
-                document.getElementById('campus').value = campus;
-            }
+            const campoC = document.getElementById('campus');
+            if (campus && !campoC.value) campoC.value = campus;
         });
 
         // ============================================
-        // VERIFICAR EDIÇÃO VIA URL
+        // INICIALIZAR
         // ============================================
-        const urlParams = new URLSearchParams(window.location.search);
-        const editId = urlParams.get('edit');
-        if (editId) carregarParaEdicao(editId);
-
-        // ============================================
-        // INICIAR
-        // ============================================
-        carregarDados();
-        console.log('📋 Formulário DAE carregado!');
-        console.log(`📊 ${acoes.length} ações em memória`);
+        inicializarTema();
+        inicializar();
     </script>
 
-    <!-- ============================================
-         FIREBASE - BANCO DE DADOS ONLINE
-         ============================================ -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-    <script>
-        // ============================================
-        // CONFIGURAÇÃO DO FIREBASE
-        // ============================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyBt4N9gQ6DFXZ6d648kisGfLzrdjo0TohU",
-            authDomain: "dae-dashboard-2026.firebaseapp.com",
-            projectId: "dae-dashboard-2026",
-            storageBucket: "dae-dashboard-2026.firebasestorage.app",
-            messagingSenderId: "794919394282",
-            appId: "1:794919394282:web:36c644769fb6a9312bb093"
-        };
-
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        console.log('🔥 Firebase conectado no formulário!');
-
-        // ============================================
-        // SALVAR DADOS NO FIREBASE
-        // ============================================
-        async function salvarDadosFirebase(acoes) {
-            try {
-                await db.collection('acoes').doc('lista').set({ dados: acoes });
-                console.log('✅ Dados salvos no Firebase!');
-            } catch (error) {
-                console.error('❌ Erro ao salvar no Firebase:', error);
-            }
-        }
-    </script>
 </body>
 
 </html>
